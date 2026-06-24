@@ -188,6 +188,8 @@ SUBSURFACE
       TEMPERATURE DIRICHLET
     END
 
+    CYCLIC
+
     RATE LIST
       DATA_UNITS m^3/s
       TIME_UNITS {{ value.injection_rate.time_unit }}
@@ -227,7 +229,7 @@ SUBSURFACE
 
   OUTPUT
     SNAPSHOT_FILE
-      TIMES year 0 0.1 1. 5.
+      PERIODIC TIME 0.5 year
       FORMAT HDF5
       PRINT_COLUMN_IDS
       VARIABLES

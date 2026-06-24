@@ -1,0 +1,31 @@
+general:
+  output_directory: ./datasets_out/seasonal
+  number_cells: [1000,1000,1]
+  number_datapoints: 26
+  mpirun_procs: 100
+  random_seed: 2406
+  cell_resolution: 5.0
+  time_to_simulate:
+    final_time: 27.5
+  mpirun_gpu: false
+  min_hp_dist: 0.0
+  heatpump_boundary_offset: [0, 0, 0]
+heatpump_parameters:
+  hps:
+    vary: spatially_vary_within_datapoint
+    value: ./settings/seasonal/hps_settings.json
+hydrogeological_parameters:
+  pressure_gradient:
+    vary: fixed
+    value: -0.003
+  permeability:
+    vary: spatially_vary_within_datapoint
+    distribution: logarithmic
+    value:
+      frequency:
+        min: 18
+        max: 19
+      max: 5.09683995922528e-09
+      min: 1.0193679918450561e-11
+  porosity:
+    value: 0.25

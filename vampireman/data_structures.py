@@ -522,6 +522,28 @@ class GeneralConfig(BaseModel):
     Useful for generating data sets with many data points.
     """
 
+    mpirun_gpu: bool = False
+    """
+    When `GeneralConfig.mpirun_gpu` is set to `True`, the simulation tool is run with GPU support.
+    This requires that the simulation tool was compiled with GPU support.
+
+    Attention: Please set `GeneralConfig.mpirun_procs` accordingly to the number of available GPUs, e.g. if you have 2
+    GPUs, set `GeneralConfig.mpirun_procs` to `2`.
+    """
+
+    heatpump_boundary_offset: NDArray[Shape["3 number_cells"], int] | NDArray[Shape["2 number_cells"], int] = Field(  # pyright: ignore[reportInvalidTypeArguments]
+        default_factory=lambda: np.array([0, 0, 0])
+    )
+    """
+    In Cells. This attribute can be used to ensure that when `HeatPump` locations are varied spatially, they only appear in the middle of the domain and not close to the boundaries. E.g. if `number_cells = [100, 100, 1]` and `heatpump_only_in_mid = [10, 10, 0]`, heatpumps will only be placed in the area between cell 10 and cell 90 in x and y direction.
+    """
+
+    min_hp_dist: float = 42.0
+    """
+    In meters, should be always at least cell size. This attribute can be used to ensure that when `HeatPump` locations are varied spatially, they are not placed too close to each other.
+    """
+
+
     # This makes pydantic fail if there is extra data in the YAML settings file that cannot be parsed
     model_config = ConfigDict(extra="forbid")
 
